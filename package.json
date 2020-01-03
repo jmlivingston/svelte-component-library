@@ -1,0 +1,165 @@
+{
+  "name": "jl-svelte-component-library",
+  "version": "0.0.1",
+  "description": "Boilerplate for creating Svelte component libraries.",
+  "keywords": [
+    "svelte",
+    "storybook",
+    "tailwind",
+    "rollup",
+    "webpack"
+  ],
+  "author": "jmlivingston@gmail.com",
+  "license": "ISC",
+  "repository": "https://github.com/jmlivingston/svelte-component-library",
+  "scripts": {
+    "start": "cross-env STORYBOOK_DEBUG=true SBCONFIG_CONFIG_DIR=scripts/storybook start-storybook -p 4000 --quiet --ci",
+    "start:info": "cross-env SBCONFIG_CONFIG_DIR=scripts/storybook start-storybook -p 4000 --quiet --ci",
+    "build": "rollup -c ./scripts/build/rollup.config.js",
+    "build-watch": "npm run build -- -w",
+    "build-babel-config": "node scripts/build/build-babel-config.js",
+    "prepublish-documentation": "build-storybook -c scripts/storybook -o storybook-static",
+    "publish-documentation": "storybook-to-ghpages --out=storybook-static --existing-output-dir=storybook-static",
+    "start-documentation": "npx http-server storybook-static",
+    "test:dev": "jest --watch",
+    "test": "jest",
+    "release": "standard-version",
+    "format": "prettier --write \"{src,scripts}/**/*.{js,json,css,scss,md}\"",
+    "lint": "eslint \"{src,scripts}/**/*.js\" --fix --max-warnings=0",
+    "precommit": "lint-staged",
+    "generate": "node --experimental-modules node_modules/.bin/plop --plopfile scripts/templates/index.js",
+    "update-packages": "npx npm-check-updates -u && npm i"
+  },
+  "devDependencies": {
+    "@babel/core": "7.7.7",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "7.7.4",
+    "@babel/plugin-proposal-numeric-separator": "7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.7.7",
+    "@babel/plugin-proposal-optional-chaining": "7.7.5",
+    "@babel/plugin-syntax-dynamic-import": "7.7.4",
+    "@babel/plugin-transform-destructuring": "7.7.4",
+    "@babel/plugin-transform-runtime": "7.7.6",
+    "@babel/preset-env": "7.7.7",
+    "@storybook/addon-a11y": "5.2.8",
+    "@storybook/addon-actions": "5.2.8",
+    "@storybook/addon-info": "5.2.8",
+    "@storybook/addon-links": "5.2.8",
+    "@storybook/addon-storysource": "5.2.8",
+    "@storybook/addon-viewport": "5.2.8",
+    "@storybook/addons": "5.2.8",
+    "@storybook/storybook-deployer": "2.8.1",
+    "@storybook/svelte": "5.2.8",
+    "babel-eslint": "10.0.3",
+    "babel-loader": "8.0.6",
+    "babel-plugin-dynamic-import-node": "2.3.0",
+    "cross-env": "6.0.3",
+    "css-loader": "3.4.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.9.0",
+    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "husky": "3.1.0",
+    "jest": "24.9.0",
+    "jest-junit": "10.0.0",
+    "jest-transform-css": "2.0.0",
+    "lint-staged": "9.5.0",
+    "node-sass": "4.13.0",
+    "plop": "2.5.3",
+    "prettier": "1.19.1",
+    "rimraf": "3.0.0",
+    "rollup": "1.27.14",
+    "rollup-plugin-auto-external": "2.0.0",
+    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-commonjs": "10.1.0",
+    "rollup-plugin-node-resolve": "5.2.0",
+    "rollup-plugin-postcss": "2.0.3",
+    "rollup-plugin-svelte": "5.1.1",
+    "rollup-plugin-terser": "5.1.3",
+    "standard-version": "7.0.1",
+    "svelte": "3.16.7",
+    "svelte-loader": "2.13.6"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-nullish-coalescing-operator",
+      "@babel/plugin-proposal-numeric-separator",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-proposal-optional-chaining",
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-transform-destructuring",
+      "@babel/plugin-transform-runtime",
+      "babel-plugin-dynamic-import-node"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true
+  },
+  "jest": {
+    "rootDir": "src",
+    "setupFilesAfterEnv": [
+      "<rootDir>/../scripts/test/jest-setup.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/../scripts/test/file.mock.js",
+      "\\.(css|less|scss)$": "<rootDir>/../scripts/test/style.mock.js"
+    },
+    "transform": {
+      ".+\\.js$": "babel-jest",
+      ".+\\.(css|styl|less|sass|scss)$": "jest-transform-css",
+      ".+\\.(bmp|gif|jpg|jpeg|png|psd|svg|webp)$": "<rootDir>/../scripts/test/media-file.mock.js"
+    },
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "<rootDir>/../scripts/test"
+        }
+      ]
+    ],
+    "verbose": true
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:import/errors",
+      "plugin:jsx-a11y/recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "import",
+      "jsx-a11y"
+    ],
+    "rules": {
+      "no-console": 1,
+      "no-debugger": 1
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "**/*.{css,js,json,svelte}": [
+        "prettier --write",
+        "git add"
+      ],
+      "src/**/*.js": [
+        "npm run lint",
+        "git add"
+      ]
+    }
+  },
+  "husky": {
+    "hooks": {
+      "post-checkout": "if [[ $HUSKY_GIT_PARAMS  =~ 1$ ]]; then npm install --no-package-lock; fi",
+      "post-merge": "npm install --no-package-lock",
+      "post-rebase": "npm install",
+      "pre-commit": "npm run test && lint-staged"
+    }
+  }
+}
